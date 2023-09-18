@@ -17,7 +17,7 @@ body {
     padding: 20px;
     margin-top: 60px;
     width: 950px;
-    border: 1px solid blue;
+    border: 1px solid rgb(78, 5, 124);
     background-color: rgb(251, 252, 252);
     align-items: center;
     text-align: center;
@@ -225,6 +225,7 @@ input {
     padding: 10px;
     color: darkblue;
     font-weight: bold;
+    border-radius: 3rem;
 }
 
 .copyright { 
