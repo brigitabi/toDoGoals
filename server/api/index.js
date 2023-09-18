@@ -10,11 +10,11 @@ const app = express();
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send("App working")
 })
 
-app.get('/todos/:userEmail', async (req, res) => {
+app.get('/api/todos/:userEmail', async (req, res) => {
     const { userEmail } = req.params
     console.log(userEmail)
     try { 
@@ -26,7 +26,7 @@ app.get('/todos/:userEmail', async (req, res) => {
 })
 
 // create a new todo
-app.post('/todos', async(req, res) => { 
+app.post('/api/todos', async(req, res) => { 
     const {user_email, title, progress, date} = req.body
     const id = uuidv4()
     try { 
@@ -39,7 +39,7 @@ app.post('/todos', async(req, res) => {
 })
 
 // edititing
-app.put('/todos/:id', async (req, res) => {
+app.put('/api/todos/:id', async (req, res) => {
     const { id } = req.params
     const { user_email, title, progress, date} = req.body 
     try { 
@@ -52,7 +52,7 @@ app.put('/todos/:id', async (req, res) => {
 
 // deleting a goal
 
-app.delete('/todos/:id', async (req, res) => {
+app.delete('/api/todos/:id', async (req, res) => {
     const { id } = req.params
     try {
         const deleteToDo = await pool.query('DELETE FROM todoss WHERE id = $1;', [id])
@@ -63,7 +63,7 @@ app.delete('/todos/:id', async (req, res) => {
 })
 
 //signup
-app.post('/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     const { email, password } = req.body
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(password, salt)
@@ -86,7 +86,7 @@ app.post('/signup', async (req, res) => {
 })
 
 //login
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body
     try {
         const users = await pool.query('SELECT * FROM userss WHERE email = $1', [email])
