@@ -18,7 +18,7 @@ app.get('/todos/:userEmail', async (req, res) => {
     const { userEmail } = req.params
     console.log(userEmail)
     try { 
-        const todos = await pool.query('SELECT * FROM todos WHERE user_email = $1', [userEmail])
+        const todos = await pool.query('SELECT * FROM todoss WHERE user_email = $1', [userEmail])
         res.json(todos.rows)
     } catch (err) { 
         console.error(err)
@@ -30,7 +30,7 @@ app.post('/todos', async(req, res) => {
     const {user_email, title, progress, date} = req.body
     const id = uuidv4()
     try { 
-        const newToDo = await pool.query(`INSERT INTO todos(id, user_email, title, progress, date) VALUES($1,$2,$3,$4,$5)`, 
+        const newToDo = await pool.query(`INSERT INTO todoss(id, user_email, title, progress, date) VALUES($1,$2,$3,$4,$5)`, 
         [id, user_email, title, progress, date])
         res.json(newToDo)
     } catch (err) {
@@ -43,7 +43,7 @@ app.put('/todos/:id', async (req, res) => {
     const { id } = req.params
     const { user_email, title, progress, date} = req.body 
     try { 
-        const editToDo = await pool.query('UPDATE todos SET user_email = $1, title = $2, progress = $3, date = $4 WHERE id = $5;', [user_email, title, progress, date, id])
+        const editToDo = await pool.query('UPDATE todoss SET user_email = $1, title = $2, progress = $3, date = $4 WHERE id = $5;', [user_email, title, progress, date, id])
         res.json(editToDo)
     } catch (err) { 
         console.error(err)
@@ -55,7 +55,7 @@ app.put('/todos/:id', async (req, res) => {
 app.delete('/todos/:id', async (req, res) => {
     const { id } = req.params
     try {
-        const deleteToDo = await pool.query('DELETE FROM todos WHERE id = $1;', [id])
+        const deleteToDo = await pool.query('DELETE FROM todoss WHERE id = $1;', [id])
         res.json(deleteToDo)
     } catch (err) { 
         console.error(err)
@@ -68,7 +68,7 @@ app.post('/signup', async (req, res) => {
     const salt = bcrypt.genSaltSync(10)
     const hashedPassword = bcrypt.hashSync(password, salt)
     try {
-        const signUp = await pool.query(`INSERT INTO users (email, hashed_password) VALUES($1, $2)`, 
+        const signUp = await pool.query(`INSERT INTO userss (email, hashed_password) VALUES($1, $2)`, 
     [email, hashedPassword])
 
     console.log("signup", signUp)
@@ -89,7 +89,7 @@ app.post('/signup', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { email, password } = req.body
     try {
-        const users = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+        const users = await pool.query('SELECT * FROM userss WHERE email = $1', [email])
 
         if (!users.rows.length) return res.json({ detail : 'User does not exist'})
 
