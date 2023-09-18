@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "if-env TYPE=server && (cd server && npm install) || (cd client && npm install)", 
-    "start": "node ./server/server.js", 
+    "start": "node ./api/index.js", 
     "client": "cd client && npm start"
   },
   "keywords": [],
